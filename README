@@ -1,0 +1,11 @@
+=============================================================================
+Note
+=============================================================================
+
+CVThresh depends on wavethresh4 (wavethresh version 4), but wavethresh version 
+in CRAN is 2.2-8.
+
+Before using CVThresh, download and install the package wavethresh4, which is 
+available from Prof. Nason's website http://www.stats.bris.ac.uk/~wavethresh/. 
+For installing the package, look at the manual "R Installation and Administration"
+in R Homepage http://www.r-project.org/.

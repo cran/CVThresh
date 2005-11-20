@@ -1,0 +1,34 @@
+\name{fun.poly}
+\alias{fun.poly}
+\title{Piecewise polynomial function}
+\description{
+This function generates Piecewise polynomial function values for \eqn{n} equally spaced points in \eqn{[0,1]}.
+}
+\usage{
+fun.poly(n=1024)
+}
+\arguments{
+\item{n}{the number of data}
+}
+\details{
+Piecewise polynomial function with the discontinuity is introduced by Nason and Silverman (1994) and
+is useful test function evaluating a wavelet shrinkage method.
+}
+\value{
+Piecewise polynomial function values \eqn{f(\frac{i}{n}), i=1,\ldots,n}{f(i/n), i=1,\ldots,n} and its variability
+\eqn{||f|| = \frac{\sum_{i=1}^n (f_i - \bar f)^2}{n-1}}{||f|| = \sum_{i=1}^n (f_i - mena(f))^2 / (n-1)}
+where \eqn{\bar f = \frac{\sum_{i=1}^n f_i}{n}}{mena(f) = \sum_{i=1}^n f_i / n}.
+}
+\references{
+Nason, G.P. and Silverman, B.W. (1994) The discrete wavelet transform in S. 
+\emph{Journal of Computational and Graphical Statistics}, \bold{3}, 163--191.
+}
+\seealso{
+\code{\link{fun.dopp}}, \code{\link{fun.heav}}, \code{\link{fun.fg1}}.
+}
+\examples{
+testpoly <- fun.poly(1024)
+plot(testpoly$x, testpoly$meanf, xlab="", ylab="", 
+     main="Plot of Piecewise polynomial function", type="l")
+}
+\keyword{nonparametric}
