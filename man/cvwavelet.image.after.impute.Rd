@@ -1,12 +1,12 @@
-\name{fun.cvwavelet.image.after.impute}
-\alias{fun.cvwavelet.image.after.impute}
+\name{cvwavelet.image.after.impute}
+\alias{cvwavelet.image.after.impute}
 \title{Cross-Validation Wavelet Shrinkage for two-dimensional data after imputation}
 \description{
 This function performs level-dependent cross-validation wavelet shrinkage for two-dimensional data 
 given the cross-validation scheme and imputation values.
 }
 \usage{
-fun.cvwavelet.image.after.impute(images, imagewd, imageimpute,
+cvwavelet.image.after.impute(images, imagewd, imageimpute,
    cv.index1=cv.index1, cv.index2=cv.index2,
    cv.optlevel=cv.optlevel, cv.tol=cv.tol, cv.maxiter=cv.maxiter,
    filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
@@ -35,6 +35,6 @@ Reconstruction of images and thresholding values by level-dependent cross-valida
 \item{cvthresh}{thresholding values by level-dependent cross-validation}
 }
 \seealso{
-\code{\link{fun.cvwavelet.image}}, \code{\link{fun.cvtype.image}}, \code{\link{fun.cvimpute.image.by.wavelet}}.
+\code{\link{cvwavelet.image}}, \code{\link{cvtype.image}}, \code{\link{cvimpute.image.by.wavelet}}.
 }
 \keyword{nonparametric}

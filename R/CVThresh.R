@@ -1,16 +1,18 @@
-fun.cvwavelet <- function(
+cvwavelet <- function(
     y=y, ywd=ywd,
     cv.optlevel, cv.bsize=1, cv.kfold, cv.random=TRUE, cv.tol=0.1^3, cv.maxiter=100,
     impute.vscale="independent", impute.tol=0.1^3, impute.maxiter=100,
     filter.number=10, family="DaubLeAsymm", thresh.type ="soft", ll=3)
 {
-    cv.index <- fun.cvtype(n=length(y), cv.bsize=cv.bsize, cv.kfold=cv.kfold, cv.random=cv.random)$cv.index
+    if (impute.vscale != "independent" && impute.vscale != "level") stop("impute.vscale must be one of independent or level.")
 
-    yimpute <- fun.cvimpute.by.wavelet(y=y, impute.index=cv.index, impute.tol=impute.tol,
+    cv.index <- cvtype(n=length(y), cv.bsize=cv.bsize, cv.kfold=cv.kfold, cv.random=cv.random)$cv.index
+
+    yimpute <- cvimpute.by.wavelet(y=y, impute.index=cv.index, impute.tol=impute.tol,
                         impute.maxiter=impute.maxiter, impute.vscale=impute.vscale,
                         filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)$yimpute
 
-    tmpout <- fun.cvwavelet.after.impute(y=y, ywd=ywd, yimpute=yimpute, cv.index=cv.index,
+    tmpout <- cvwavelet.after.impute(y=y, ywd=ywd, yimpute=yimpute, cv.index=cv.index,
                      cv.optlevel=cv.optlevel, cv.tol=cv.tol, cv.maxiter=cv.maxiter,
                      filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
 
@@ -18,8 +20,10 @@ fun.cvwavelet <- function(
 }
 
 
-fun.cvtype <- function(n, cv.bsize=1, cv.kfold, cv.random=TRUE) {
+cvtype <- function(n, cv.bsize=1, cv.kfold, cv.random=TRUE) {
     if(n < cv.bsize * cv.kfold) stop("Block size or no. of fold is too large.")
+    if(n <= 0) stop("The number of data must be greater than 0.")    
+    
     cv.index <- tmp.index <- NULL
 
     if(cv.random) {
@@ -46,10 +50,12 @@ fun.cvtype <- function(n, cv.bsize=1, cv.kfold, cv.random=TRUE) {
 }
 
 
-fun.cvimpute.by.wavelet <- function(
+cvimpute.by.wavelet <- function(
     y, impute.index, impute.tol=0.1^3, impute.maxiter=100, impute.vscale="independent",
     filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
 {
+    if (impute.vscale != "independent" && impute.vscale != "level") stop("impute.vscale must be one of independent or level.")
+
     n <- length(y)
     sdy <- sd(y)
 
@@ -120,12 +126,17 @@ fun.cvimpute.by.wavelet <- function(
 }
 
 
-fun.cvwavelet.after.impute <- function(
+cvwavelet.after.impute <- function(
     y, ywd, yimpute,
     cv.index, cv.optlevel, cv.tol=0.1^3, cv.maxiter=100,
     filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
 { ### We adapt grid search algorithm of R function "WaveletCV" in WaveThresh3 of Nason (1998).
+  ### This algorithm is a special form of grid search algorithm called golden section search.
+  ### When bisectioning the interval containing solution, the golden number is used to keep
+  ### the ratio of two sectioned subinterval fixed.
 
+    if (length(y) != length(yimpute)) stop("The length of data and imputed values must be the same.")
+    
     n <- length(y)
     cd.kfold <- nrow(cv.index)
     nlevel <- log2(n)
@@ -133,7 +144,7 @@ fun.cvwavelet.after.impute <- function(
 
     cv.ndim <- length(cv.optlevel)
 
-    R <- 0.61803399000000003
+    R <- (sqrt(5)-1)/2 # R is the golden number 0.61803399000000003 
     C <- 1 - R
 
     lambda <- matrix(0, 4, cv.ndim)
@@ -224,21 +235,23 @@ fun.cvwavelet.after.impute <- function(
 }
 
 
-fun.cvwavelet.image <- function(
+cvwavelet.image <- function(
     images, imagewd,
     cv.optlevel, cv.bsize=c(1,1), cv.kfold, cv.tol=0.1^3, cv.maxiter=100,
     impute.tol=0.1^3, impute.maxiter=100,
     filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
 {
-    tmp <- fun.cvtype.image(n=c(nrow(images), ncol(images)), cv.bsize=cv.bsize, cv.kfold=cv.kfold)
+    if(!is.matrix(images)) stop("images must be a matrix format.")
+
+    tmp <- cvtype.image(n=c(nrow(images), ncol(images)), cv.bsize=cv.bsize, cv.kfold=cv.kfold)
     cv.index1 <- tmp$cv.index1
     cv.index2 <- tmp$cv.index2
 
-    imageimpute <- fun.cvimpute.image.by.wavelet(images=images, impute.index1=cv.index1, impute.index2=cv.index2,
+    imageimpute <- cvimpute.image.by.wavelet(images=images, impute.index1=cv.index1, impute.index2=cv.index2,
                             impute.tol=impute.tol, impute.maxiter=impute.maxiter,
                             filter.number=filter.number, family=family, thresh.type=thresh.type)$imageimpute
 
-    tmpout <- fun.cvwavelet.image.after.impute(images=images, imagewd=imagewd, imageimpute=imageimpute,
+    tmpout <- cvwavelet.image.after.impute(images=images, imagewd=imagewd, imageimpute=imageimpute,
                      cv.index1=cv.index1, cv.index2=cv.index2,
                      cv.optlevel=cv.optlevel, cv.tol=cv.tol, cv.maxiter=cv.maxiter,
                      filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
@@ -247,7 +260,7 @@ fun.cvwavelet.image <- function(
 }
 
 
-fun.cvtype.image <- function(n, cv.bsize=c(1,1), cv.kfold) {
+cvtype.image <- function(n, cv.bsize=c(1,1), cv.kfold) {
     if(length(n) != 2 || length(cv.bsize) != 2) stop("Two dimension")
     if(n[1]*n[2] < cv.bsize[1] * cv.bsize[2] * cv.kfold) stop("Block size or no. of fold is too large.")
 
@@ -274,10 +287,12 @@ fun.cvtype.image <- function(n, cv.bsize=c(1,1), cv.kfold) {
 }
 
 
-fun.cvimpute.image.by.wavelet <- function(
-   images=iamges, impute.index1, impute.index2, impute.tol=0.1^3, impute.maxiter=100,
+cvimpute.image.by.wavelet <- function(
+   images, impute.index1, impute.index2, impute.tol=0.1^3, impute.maxiter=100,
    filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
 {
+    if(!is.matrix(images)) stop("images must be a matrix format.")
+
     fracmiss <- (ncol(impute.index1) * ncol(impute.index2)) / (nrow(images) * ncol(images))
     sdimage <- sd(as.numeric(images))
 
@@ -325,13 +340,18 @@ fun.cvimpute.image.by.wavelet <- function(
 }
 
 
-fun.cvwavelet.image.after.impute <- function(
+cvwavelet.image.after.impute <- function(
    images, imagewd, imageimpute,
    cv.index1=cv.index1, cv.index2=cv.index2,
    cv.optlevel=cv.optlevel, cv.tol=cv.tol, cv.maxiter=cv.maxiter,
    filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
 { ### We adapt grid search algorithm of R function "WaveletCV" in WaveThresh3 of Nason (1998).
+  ### This algorithm is a special form of grid search algorithm called golden section search.
+  ### When bisectioning the interval containing solution, the golden number is used to keep
+  ### the ratio of two sectioned subinterval fixed.
 
+    if(!is.matrix(images)) stop("images must be a matrix format.")
+  
     sdimage <- sd(as.numeric(images))
     cv.kfold <- nrow(cv.index1)
     tmp <- c(8,9,10)
@@ -347,7 +367,7 @@ fun.cvwavelet.image.after.impute <- function(
     for (i in slevel)
         lambda.range <- c(lambda.range, ebayesthresh(imagewd[[i]], sdev=sdev, verbose=TRUE)$threshold.origscale)
 
-    R <- 0.61803399000000003
+    R <- (sqrt(5)-1)/2 # R is the golden number 0.61803399000000003 
     C <- 1 - R
 
     ndim <- (diff(range(cv.optlevel))+1) * 3
@@ -433,19 +453,28 @@ fun.cvwavelet.image.after.impute <- function(
 }
 
 
-fun.heav <- function(n=1024) {
+heav <- function(n=1024) {
+                                                                  
+    if(n <= 0) stop("The number of data must be greater than 0.") 
+                                                                  
     x <- seq(0, 1, length = n+1)[1:n]
     meanf <- 4 * sin(4*pi*x) - sign(x-0.3)-sign(0.72-x)
     list(x = x, meanf = meanf, sdf=sd(meanf))
 }
 
-fun.dopp <- function(n=1024) {
+dopp <- function(n=1024) {
+                                                                  
+    if(n <= 0) stop("The number of data must be greater than 0.") 
+                                                                  
     x <- seq(0, 1, length = n+1)[1:n]
     meanf <- (x*(1-x))^0.5 * sin(2*pi*1.05/(x+0.05))
     list(x = x, meanf = meanf, sdf=sd(meanf))
 }
 
-fun.poly <- function(n=1024) {
+poly <- function(n=1024) {
+                                                                  
+    if(n <= 0) stop("The number of data must be greater than 0.") 
+    
     x <- seq(0, 1, length = n+1)[1:n]
     meanf <- rep(0, n)
     xsv <- (x <= 0.5)               # Left hand end
@@ -457,7 +486,10 @@ fun.poly <- function(n=1024) {
     list(x = x, meanf = meanf, sdf=sd(meanf))
 }
 
-fun.fg1 <- function(n=1024) {
+fg1 <- function(n=1024) {
+
+    if(n <= 0) stop("The number of data must be greater than 0.") 
+    
     x <- seq(0, 1, length = n+1)[1:n]
     meanf <- 0.25 * ((4 * x - 2.0) + 2 * exp(-16 * (4 * x - 2.0)^2))
     list(x = x, meanf = meanf, sdf=sd(meanf))

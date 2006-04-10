@@ -1,11 +1,11 @@
-\name{fun.cvwavelet}
-\alias{fun.cvwavelet}
+\name{cvwavelet}
+\alias{cvwavelet}
 \title{Wavelet reconstruction by level-dependent Cross-Validation}
 \description{
 This function reconstructs the noise data by level-dependent cross-validation wavelet shrinkage.
 }
 \usage{
-fun.cvwavelet(y=y, ywd=ywd, cv.optlevel, cv.bsize=1, cv.kfold, 
+cvwavelet(y=y, ywd=ywd, cv.optlevel, cv.bsize=1, cv.kfold, 
     cv.random=TRUE, cv.tol=0.1^3, cv.maxiter=100,
     impute.vscale="independent", impute.tol=0.1^3, impute.maxiter=100,
     filter.number=10, family="DaubLeAsymm", thresh.type ="soft", ll=3)
@@ -38,13 +38,13 @@ This function performs level-dependent cross-validation wavelet shrinkage.
 \item{cvthresh}{threshold values by level-dependent cross-validation}
 }
 \seealso{
-\code{\link{fun.cvtype}}, \code{\link{fun.cvimpute.by.wavelet}}, \code{\link{fun.cvwavelet.after.impute}}.
+\code{\link{cvtype}}, \code{\link{cvimpute.by.wavelet}}, \code{\link{cvwavelet.after.impute}}.
 }
 \examples{
 data(ipd)
 y <- as.numeric(ipd); n <- length(y); nlevel <- log2(n)
 ywd <- wd(y)
-out <- fun.cvwavelet(y=y, ywd=ywd, cv.optlevel=c(3:(nlevel-1)), 
+out <- cvwavelet(y=y, ywd=ywd, cv.optlevel=c(3:(nlevel-1)), 
                      cv.bsize=2, cv.kfold=4)
 
 ts.plot(ts(out$yc, start=1229.98, deltat=0.02, frequency=50),

@@ -1,11 +1,11 @@
-\name{fun.cvwavelet.image}
-\alias{fun.cvwavelet.image}
+\name{cvwavelet.image}
+\alias{cvwavelet.image}
 \title{Wavelet reconstruction of image by level-dependent Cross-Validation}
 \description{
 This function reconstructs image by level-dependent cross-validation wavelet shrinkage.
 }
 \usage{
-fun.cvwavelet.image(images, imagewd,
+cvwavelet.image(images, imagewd,
     cv.optlevel, cv.bsize=c(1,1), cv.kfold, cv.tol=0.1^3, cv.maxiter=100,
     impute.tol=0.1^3, impute.maxiter=100,
     filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
@@ -33,8 +33,8 @@ This function performs level-dependent cross-validation wavelet shrinkage for tw
 \item{cvthresh}{threshold values by level-dependent cross-validation}
 }
 \seealso{
-\code{\link{fun.cvtype.image}}, \code{\link{fun.cvimpute.image.by.wavelet}}, \cr
-\code{\link{fun.cvwavelet.image.after.impute}}.
+\code{\link{cvtype.image}}, \code{\link{cvimpute.image.by.wavelet}}, \cr
+\code{\link{cvwavelet.image.after.impute}}.
 }
 \examples{ 
 # Generate Noisy Lennon Image
@@ -46,7 +46,7 @@ lennonnoise <- lennon+matrix(rnorm(nlennon^2, 0, sdimage), nlennon, nlennon)
 
 # Level-dependent Cross-validation Thresholding
 lennonwd <- imwd(lennonnoise)
-lennoncv <- fun.cvwavelet.image(images=lennonnoise, imagewd=lennonwd,
+lennoncv <- cvwavelet.image(images=lennonnoise, imagewd=lennonwd,
                        cv.optlevel=optlevel, cv.bsize=c(1,1), cv.kfold=10)$imagecv
 image(lennoncv, axes=FALSE, col=gray(0:100/100), main="Level-dependent CV")
 }

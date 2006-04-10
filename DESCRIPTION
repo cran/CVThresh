@@ -1,7 +1,7 @@
 Package: CVThresh
 Title: Level-Dependent Cross-Validation Thresholding
-Version: 1.0.0
-Date: 2005-11-20
+Version: 1.0.1
+Date: 2006-04-10
 Author: Donghoh Kim <donghoh.kim@gmail.com>,
         Hee-Seok Oh <heeseok@stats.snu.ac.kr>
 Maintainer: Donghoh Kim <donghoh.kim@gmail.com>
@@ -19,4 +19,4 @@ Description: This package carries out level-dependent
         with correlated errors.
 License: GPL version 2 or newer
 URL: http://stats.snu.ac.kr/~heeseok/cv.html
-Packaged: Sun Mar 12 13:17:15 2006; Donghoh Kim
+Packaged: Fri Apr 21 11:46:37 2006; Donghoh Kim

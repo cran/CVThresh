@@ -1,11 +1,11 @@
-\name{fun.cvtype}
-\alias{fun.cvtype}
+\name{cvtype}
+\alias{cvtype}
 \title{Generating test dataset index for cross-validation}
 \description{
    This function generates test dataset index for cross-validation.
 }
 \usage{
-fun.cvtype(n, cv.bsize=1, cv.kfold, cv.random=TRUE)
+cvtype(n, cv.bsize=1, cv.kfold, cv.random=TRUE)
 }
 \arguments{
 \item{n}{the number of observation}
@@ -24,14 +24,14 @@ To select each fold at random, set \code{cv.random = TRUE}.
 matrix of which row is test dataset index for cross-validation.
 }
 \seealso{
-\code{\link{fun.cvwavelet}},
-\code{\link{fun.cvimpute.by.wavelet}},
-\code{\link{fun.cvwavelet.after.impute}}.
+\code{\link{cvwavelet}},
+\code{\link{cvimpute.by.wavelet}},
+\code{\link{cvwavelet.after.impute}}.
 }
 \examples{
 # Traditional 4-fold cross-validation for 100 observations
-fun.cvtype(n=100, cv.bsize=1, cv.kfold=4, cv.random=FALSE)
+cvtype(n=100, cv.bsize=1, cv.kfold=4, cv.random=FALSE)
 # Random 4-fold cross-validation with block size 2 for 100 observations
-fun.cvtype(n=100, cv.bsize=2, cv.kfold=4, cv.random=TRUE)
+cvtype(n=100, cv.bsize=2, cv.kfold=4, cv.random=TRUE)
 }
 \keyword{nonparametric}

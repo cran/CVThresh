@@ -1,11 +1,11 @@
-\name{fun.heav}
-\alias{fun.heav}
+\name{heav}
+\alias{heav}
 \title{Heavisine function}
 \description{
 This function generates Heavisine function values for \eqn{n} equally spaced points in \eqn{[0,1]}.
 }
 \usage{
-fun.heav(n=1024)
+heav(n=1024)
 }
 \arguments{
 \item{n}{the number of data}
@@ -24,10 +24,10 @@ Donoho, D.L. and Johnstone, I.M. (1994) Ideal spatial adaptation by wavelet shri
 \emph{Biometrika}, \bold{81}, 425--455.
 }
 \seealso{
-\code{\link{fun.dopp}}, \code{\link{fun.poly}}, \code{\link{fun.fg1}}.
+\code{\link{dopp}}, \code{\link{poly}}, \code{\link{fg1}}.
 }
 \examples{
-testheav <- fun.heav(1024)
+testheav <- heav(1024)
 plot(testheav$x, testheav$meanf, xlab="", ylab="", 
      main="Plot of Heavisine function", type="l")
 }

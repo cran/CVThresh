@@ -1,11 +1,11 @@
-\name{fun.poly}
-\alias{fun.poly}
+\name{poly}
+\alias{poly}
 \title{Piecewise polynomial function}
 \description{
 This function generates Piecewise polynomial function values for \eqn{n} equally spaced points in \eqn{[0,1]}.
 }
 \usage{
-fun.poly(n=1024)
+poly(n=1024)
 }
 \arguments{
 \item{n}{the number of data}
@@ -24,10 +24,10 @@ Nason, G.P. and Silverman, B.W. (1994) The discrete wavelet transform in S.
 \emph{Journal of Computational and Graphical Statistics}, \bold{3}, 163--191.
 }
 \seealso{
-\code{\link{fun.dopp}}, \code{\link{fun.heav}}, \code{\link{fun.fg1}}.
+\code{\link{dopp}}, \code{\link{heav}}, \code{\link{fg1}}.
 }
 \examples{
-testpoly <- fun.poly(1024)
+testpoly <- poly(1024)
 plot(testpoly$x, testpoly$meanf, xlab="", ylab="", 
      main="Plot of Piecewise polynomial function", type="l")
 }

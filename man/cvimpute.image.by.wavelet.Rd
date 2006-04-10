@@ -1,21 +1,21 @@
-\name{fun.cvimpute.by.wavelet}
-\alias{fun.cvimpute.by.wavelet}
-\title{Imputation by wavelet}
+\name{cvimpute.image.by.wavelet}
+\alias{cvimpute.image.by.wavelet}
+\title{Imputation for two-dimensional data by wavelet}
 \description{
-This function performs imputation for test dataset of cross-validation
+This function performs imputation for two-dimensional test dataset of cross-validation
 given test dataset index and initial values.
 }
 \usage{
-fun.cvimpute.by.wavelet(y, impute.index, impute.tol=0.1^3, 
-    impute.maxiter=100, impute.vscale="independent",
-    filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
+cvimpute.image.by.wavelet(images, impute.index1, impute.index2, 
+   impute.tol=0.1^3, impute.maxiter=100,
+   filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
 }
 \arguments{
-\item{y}{observation}
-\item{impute.index}{test dataset index for cross-validation}
+\item{images}{noisy image}
+\item{impute.index1}{test dataset row index according to cross-validation scheme}
+\item{impute.index2}{test dataset column index according to cross-validation scheme}
 \item{impute.tol}{tolerance for imputation}
 \item{impute.maxiter}{maximum iteration for imputation}
-\item{impute.vscale}{specifies whether variance is adjusted level-by-level or not. ``level" or ``independent"}
 \item{filter.number}{specifies the smoothness of wavelet in the decomposition (argument of WaveThresh)}
 \item{family}{specifies the family of wavelets ``DaubExPhase" or ``DaubLeAsymm" (argument of WaveThresh)}
 \item{thresh.type}{specifies the type of thresholding ``hard" or ``soft" (argument of WaveThresh)}
@@ -46,25 +46,10 @@ Lee, Y. and Nelder, J.A. (2001) Hierarchical generalised linear models: A synthe
 linear models, random-effect models and structured dispersions. \emph{Biometrika}, \bold{88}, 987--1006.
 }
 \seealso{
-\code{\link{fun.cvwavelet}}, \code{\link{fun.cvtype}}, \code{\link{fun.cvwavelet.after.impute}}.
-}
-\examples{
-# 8-fold cross-validation scheme with block size 2
-set.seed(1)
-cv.index <- fun.cvtype(n=1024, cv.bsize=2, cv.kfold=8, cv.random=TRUE)$cv.index
+\code{\link{cvtype.image}}, \code{\link{cvwavelet}}, \code{\link{cvimpute.by.wavelet}}, 
 
-# Generate 1024 observation from Heavisine function
-snr <- 5
-testdata <- fun.heav(1024)
-x <- testdata$x
-y <- testdata$meanf + rnorm(1024, 0, testdata$sdf / snr)
+\code{\link{cvwavelet.after.impute}}, \code{\link{cvwavelet.image}}, 
 
-# Impute by wavelet
-yimpute <- fun.cvimpute.by.wavelet(y=y, impute.index=cv.index)$yimpute
-
-# Compare imputed values and observations
-par(mar=0.1+c(4,4,2,1))
-plot(y, yimpute, xlab="Observations", ylab="Imputed Values",
-     main="Piecewise Polynomial", cex=0.5);abline(0,1)
+\code{\link{cvwavelet.image.after.impute}}
 }
 \keyword{nonparametric}

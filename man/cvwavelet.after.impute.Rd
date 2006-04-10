@@ -1,12 +1,12 @@
-\name{fun.cvwavelet.after.impute}
-\alias{fun.cvwavelet.after.impute}
+\name{cvwavelet.after.impute}
+\alias{cvwavelet.after.impute}
 \title{Cross-Validation Wavelet Shrinkage after imputation}
 \description{
 This function performs level-dependent cross-validation wavelet shrinkage 
 given the cross-validation scheme and imputation values.
 }
 \usage{
-fun.cvwavelet.after.impute(y, ywd, yimpute,
+cvwavelet.after.impute(y, ywd, yimpute,
     cv.index, cv.optlevel, cv.tol=0.1^3, cv.maxiter=100,
     filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
 }
@@ -33,19 +33,19 @@ Reconstruction and thresholding values by level-dependent cross-validation
 \item{cvthresh}{thresholding values by level-dependent cross-validation}
 }
 \seealso{
-\code{\link{fun.cvwavelet}}, \code{\link{fun.cvtype}}, \code{\link{fun.cvimpute.by.wavelet}}.
+\code{\link{cvwavelet}}, \code{\link{cvtype}}, \code{\link{cvimpute.by.wavelet}}.
 }
 \examples{
 data(ipd)
 y <- as.numeric(ipd); n <- length(y); nlevel <- log2(n)
 
 set.seed(1)
-cv.index <- fun.cvtype(n=n, cv.bsize=2, cv.kfold=4, cv.random=TRUE)$cv.index
-yimpute <- fun.cvimpute.by.wavelet(y=y, impute.index=cv.index)$yimpute
+cv.index <- cvtype(n=n, cv.bsize=2, cv.kfold=4, cv.random=TRUE)$cv.index
+yimpute <- cvimpute.by.wavelet(y=y, impute.index=cv.index)$yimpute
 
 ywd <- wd(y)
 
-out <- fun.cvwavelet.after.impute(y=y, ywd=ywd, yimpute=yimpute,
+out <- cvwavelet.after.impute(y=y, ywd=ywd, yimpute=yimpute,
 cv.index=cv.index, cv.optlevel=c(3:(nlevel-1)))
 
 ts.plot(ts(out$yc, start=1229.98, deltat=0.02, frequency=50),

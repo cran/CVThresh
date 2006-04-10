@@ -1,11 +1,11 @@
-\name{fun.fg1}
-\alias{fun.fg1}
+\name{fg1}
+\alias{fg1}
 \title{fg1 function}
 \description{
 This function generates fg1 function values for \eqn{n} equally spaced points in \eqn{[0,1]}.
 }
 \usage{
-fun.fg1(n=1024)
+fg1(n=1024)
 }
 \arguments{
 \item{n}{the number of data}
@@ -24,10 +24,10 @@ Fan, J. and Gijbels, I. (1995)  Data-driven bandwidth selection in local polynom
 bandwidth and spatial adaptation. \emph{Journal of the Royal Statistical Society Ser. B} \bold{57}, 371--394.
 }
 \seealso{
-\code{\link{fun.dopp}}, \code{\link{fun.heav}}, \code{\link{fun.poly}}.
+\code{\link{dopp}}, \code{\link{heav}}, \code{\link{poly}}.
 }
 \examples{
-testfg1 <- fun.fg1(1024)
+testfg1 <- fg1(1024)
 plot(testfg1$x, testfg1$meanf, xlab="", ylab="", 
      main="Plot of fg1 function", type="l")
 }
