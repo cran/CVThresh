@@ -1,14 +1,15 @@
-\name{poly}
+\name{ppoly}
 \alias{poly}
+\alias{ppoly}
 \title{Piecewise polynomial function}
 \description{
 This function generates Piecewise polynomial function values for \eqn{n} equally spaced points in \eqn{[0,1]}.
 }
 \usage{
-poly(n=1024)
+ppoly(norx=1024)
 }
 \arguments{
-\item{n}{the number of data}
+\item{norx}{the number of data or x values in [0, 1]}
 }
 \details{
 Piecewise polynomial function with the discontinuity is introduced by Nason and Silverman (1994) and
@@ -27,7 +28,7 @@ Nason, G.P. and Silverman, B.W. (1994) The discrete wavelet transform in S.
 \code{\link{dopp}}, \code{\link{heav}}, \code{\link{fg1}}.
 }
 \examples{
-testpoly <- poly(1024)
+testpoly <- ppoly(1024)
 plot(testpoly$x, testpoly$meanf, xlab="", ylab="", 
      main="Plot of Piecewise polynomial function", type="l")
 }

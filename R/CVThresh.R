@@ -10,7 +10,7 @@ cvwavelet <- function(
 
     yimpute <- cvimpute.by.wavelet(y=y, impute.index=cv.index, impute.tol=impute.tol,
                         impute.maxiter=impute.maxiter, impute.vscale=impute.vscale,
-                        filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)$yimpute
+                        filter.number=10, family="DaubLeAsymm", ll=3)$yimpute
 
     tmpout <- cvwavelet.after.impute(y=y, ywd=ywd, yimpute=yimpute, cv.index=cv.index,
                      cv.optlevel=cv.optlevel, cv.tol=cv.tol, cv.maxiter=cv.maxiter,
@@ -52,7 +52,7 @@ cvtype <- function(n, cv.bsize=1, cv.kfold, cv.random=TRUE) {
 
 cvimpute.by.wavelet <- function(
     y, impute.index, impute.tol=0.1^3, impute.maxiter=100, impute.vscale="independent",
-    filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
+    filter.number=10, family="DaubLeAsymm", ll=3)
 {
     if (impute.vscale != "independent" && impute.vscale != "level") stop("impute.vscale must be one of independent or level.")
 
@@ -239,7 +239,7 @@ cvwavelet.image <- function(
     images, imagewd,
     cv.optlevel, cv.bsize=c(1,1), cv.kfold, cv.tol=0.1^3, cv.maxiter=100,
     impute.tol=0.1^3, impute.maxiter=100,
-    filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
+    filter.number=2, ll=3)
 {
     if(!is.matrix(images)) stop("images must be a matrix format.")
 
@@ -249,12 +249,12 @@ cvwavelet.image <- function(
 
     imageimpute <- cvimpute.image.by.wavelet(images=images, impute.index1=cv.index1, impute.index2=cv.index2,
                             impute.tol=impute.tol, impute.maxiter=impute.maxiter,
-                            filter.number=filter.number, family=family, thresh.type=thresh.type)$imageimpute
+                            filter.number=filter.number, ll=ll)$imageimpute
 
     tmpout <- cvwavelet.image.after.impute(images=images, imagewd=imagewd, imageimpute=imageimpute,
                      cv.index1=cv.index1, cv.index2=cv.index2,
                      cv.optlevel=cv.optlevel, cv.tol=cv.tol, cv.maxiter=cv.maxiter,
-                     filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
+                     filter.number=2, ll=ll)
 
     list(imagecv=tmpout$imagecv, cvthresh=tmpout$optlambda)
 }
@@ -289,7 +289,7 @@ cvtype.image <- function(n, cv.bsize=c(1,1), cv.kfold) {
 
 cvimpute.image.by.wavelet <- function(
    images, impute.index1, impute.index2, impute.tol=0.1^3, impute.maxiter=100,
-   filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
+   filter.number=2, ll=3)
 {
     if(!is.matrix(images)) stop("images must be a matrix format.")
 
@@ -306,7 +306,7 @@ cvimpute.image.by.wavelet <- function(
 
     for (k in 1:nrow(impute.index1)) {
         ym <- images
-        ymwd <- imwd(ym, filter.number=filter.number, family=family)
+        ymwd <- imwd(ym, filter.number=filter.number)
         sdev0 <- mad(c(ymwd[[8]], ymwd[[9]], ymwd[[10]]))
         for (i in 1:length(slevel))
             ymwd[[slevel[i]]] <- ebayesthresh(ymwd[[slevel[i]]], sdev=sdev0)
@@ -315,7 +315,7 @@ cvimpute.image.by.wavelet <- function(
 
         j <- 0
         repeat{
-            ymwd <- imwd(ym, filter.number=filter.number, family=family)
+            ymwd <- imwd(ym, filter.number=filter.number)
             sdev1 <- mad(c(ymwd[[8]], ymwd[[9]], ymwd[[10]]))
             sdev1 <- sqrt(sdev1^2 + fracmiss * sdev0^2)
             for (i in 1:length(slevel))
@@ -344,7 +344,7 @@ cvwavelet.image.after.impute <- function(
    images, imagewd, imageimpute,
    cv.index1=cv.index1, cv.index2=cv.index2,
    cv.optlevel=cv.optlevel, cv.tol=cv.tol, cv.maxiter=cv.maxiter,
-   filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
+   filter.number=2, ll=3)
 { ### We adapt grid search algorithm of R function "WaveletCV" in WaveThresh3 of Nason (1998).
   ### This algorithm is a special form of grid search algorithm called golden section search.
   ### When bisectioning the interval containing solution, the golden number is used to keep
@@ -385,7 +385,7 @@ cvwavelet.image.after.impute <- function(
         yimpute2 <- images
 
         yimpute2[cv.index1[k, ], cv.index2[k, ]] <- imageimpute[cv.index1[k, ], cv.index2[k, ]]
-        ywdth <- imwd(yimpute2, filter.number=filter.number, family=family)
+        ywdth <- imwd(yimpute2, filter.number=filter.number)
         for (j in 1:ndim)
             ywdth[[slevel[j]]] <- threshld(ywdth[[slevel[j]]], optlambda[j], hard=FALSE)
         tmpyimputewr[cv.index1[k, ], cv.index2[k, ]] <- imwr(ywdth)[cv.index1[k, ], cv.index2[k, ]]
@@ -401,7 +401,7 @@ cvwavelet.image.after.impute <- function(
             for (k in 1:cv.kfold) {
                 yimpute2 <- images
                 yimpute2[cv.index1[k, ], cv.index2[k, ]] <- imageimpute[cv.index1[k, ], cv.index2[k, ]]
-                ywdth <- imwd(yimpute2, filter.number=filter.number, family=family)
+                ywdth <- imwd(yimpute2, filter.number=filter.number)
                 for (m in 1:ndim)
                     ywdth[[slevel[m]]] <- threshld(ywdth[[slevel[m]]], optlambda[m], hard=FALSE)
                 tmpyimputewr[cv.index1[k, ], cv.index2[k, ]] <- imwr(ywdth)[cv.index1[k, ], cv.index2[k, ]]
@@ -412,7 +412,7 @@ cvwavelet.image.after.impute <- function(
             for (k in 1:cv.kfold) {
                 yimpute2 <- images
                 yimpute2[cv.index1[k, ], cv.index2[k, ]] <- imageimpute[cv.index1[k, ], cv.index2[k, ]]
-                ywdth <- imwd(yimpute2, filter.number=filter.number, family=family)
+                ywdth <- imwd(yimpute2, filter.number=filter.number)
                 for (m in 1:ndim)
                     ywdth[[slevel[m]]] <- threshld(ywdth[[slevel[m]]], optlambda[m], hard=FALSE)
                 tmpyimputewr[cv.index1[k, ], cv.index2[k, ]] <- imwr(ywdth)[cv.index1[k, ], cv.index2[k, ]]
@@ -452,45 +452,49 @@ cvwavelet.image.after.impute <- function(
     list(imagecv=imagecv, cvthresh=optlambda)
 }
 
-
-heav <- function(n=1024) {
-                                                                  
-    if(n <= 0) stop("The number of data must be greater than 0.") 
-                                                                  
-    x <- seq(0, 1, length = n+1)[1:n]
+heav <- function(norx = 1024) {
+    if (length(norx) == 1) {
+        if(norx <= 0) stop("The number of data must be greater than 0.") 
+        x <- seq(0, 1, length = norx + 1)[1:norx]           
+    } else
+        x <- norx
     meanf <- 4 * sin(4*pi*x) - sign(x-0.3)-sign(0.72-x)
-    list(x = x, meanf = meanf, sdf=sd(meanf))
+    list(x = x, meanf = meanf, sdf=2.969959)
 }
 
-dopp <- function(n=1024) {
-                                                                  
-    if(n <= 0) stop("The number of data must be greater than 0.") 
-                                                                  
-    x <- seq(0, 1, length = n+1)[1:n]
+dopp <- function(norx = 1024) {
+    if (length(norx) == 1) {
+        if(norx <= 0) stop("The number of data must be greater than 0.") 
+        x <- seq(0, 1, length = norx + 1)[1:norx]           
+    } else
+        x <- norx
     meanf <- (x*(1-x))^0.5 * sin(2*pi*1.05/(x+0.05))
-    list(x = x, meanf = meanf, sdf=sd(meanf))
+    list(x = x, meanf = meanf, sdf=0.2889965)
 }
 
-poly <- function(n=1024) {
-                                                                  
-    if(n <= 0) stop("The number of data must be greater than 0.") 
-    
-    x <- seq(0, 1, length = n+1)[1:n]
-    meanf <- rep(0, n)
+ppoly <- function(norx = 1024) {
+    if (length(norx) == 1) {
+        if(norx <= 0) stop("The number of data must be greater than 0.") 
+        x <- seq(0, 1, length = norx + 1)[1:norx]           
+    } else
+        x <- norx
+    meanf <- rep(0, length(x))
     xsv <- (x <= 0.5)               # Left hand end
     meanf[xsv] <- -16 * x[xsv]^3 + 12 * x[xsv]^2
     xsv <- (x > 0.5) & (x <= 0.75)  # Middle section
     meanf[xsv] <- (x[xsv] * (16 * x[xsv]^2 - 40 * x[xsv] + 28))/3 - 1.5
     xsv <- x > 0.75                 # Right hand end
     meanf[xsv] <- (x[xsv] * (16 * x[xsv]^2 - 32 * x[xsv] + 16))/3
-    list(x = x, meanf = meanf, sdf=sd(meanf))
+    list(x = x, meanf = meanf, sdf=0.3033111)
 }
 
-fg1 <- function(n=1024) {
-
-    if(n <= 0) stop("The number of data must be greater than 0.") 
-    
-    x <- seq(0, 1, length = n+1)[1:n]
+fg1 <- function(norx = 1024) {
+    if (length(norx) == 1) {
+        if(norx <= 0) stop("The number of data must be greater than 0.") 
+        x <- seq(0, 1, length = norx + 1)[1:norx]           
+    } else
+        x <- norx
     meanf <- 0.25 * ((4 * x - 2.0) + 2 * exp(-16 * (4 * x - 2.0)^2))
-    list(x = x, meanf = meanf, sdf=sd(meanf))
+    list(x = x, meanf = meanf, sdf=0.3159882)
 }
+ 

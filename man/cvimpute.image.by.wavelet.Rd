@@ -7,8 +7,7 @@ given test dataset index and initial values.
 }
 \usage{
 cvimpute.image.by.wavelet(images, impute.index1, impute.index2, 
-   impute.tol=0.1^3, impute.maxiter=100,
-   filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
+   impute.tol=0.1^3, impute.maxiter=100, filter.number=2, ll=3)
 }
 \arguments{
 \item{images}{noisy image}
@@ -17,8 +16,6 @@ cvimpute.image.by.wavelet(images, impute.index1, impute.index2,
 \item{impute.tol}{tolerance for imputation}
 \item{impute.maxiter}{maximum iteration for imputation}
 \item{filter.number}{specifies the smoothness of wavelet in the decomposition (argument of WaveThresh)}
-\item{family}{specifies the family of wavelets ``DaubExPhase" or ``DaubLeAsymm" (argument of WaveThresh)}
-\item{thresh.type}{specifies the type of thresholding ``hard" or ``soft" (argument of WaveThresh)}
 \item{ll}{specifies the lowest level to be thresholded}
 }
 \details{

@@ -8,7 +8,7 @@ given test dataset index and initial values.
 \usage{
 cvimpute.by.wavelet(y, impute.index, impute.tol=0.1^3, 
     impute.maxiter=100, impute.vscale="independent",
-    filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
+    filter.number=10, family="DaubLeAsymm", ll=3)
 }
 \arguments{
 \item{y}{observation}
@@ -18,7 +18,6 @@ cvimpute.by.wavelet(y, impute.index, impute.tol=0.1^3,
 \item{impute.vscale}{specifies whether variance is adjusted level-by-level or not. ``level" or ``independent"}
 \item{filter.number}{specifies the smoothness of wavelet in the decomposition (argument of WaveThresh)}
 \item{family}{specifies the family of wavelets ``DaubExPhase" or ``DaubLeAsymm" (argument of WaveThresh)}
-\item{thresh.type}{specifies the type of thresholding ``hard" or ``soft" (argument of WaveThresh)}
 \item{ll}{specifies the lowest level to be thresholded}
 }
 \details{

@@ -7,8 +7,7 @@ This function reconstructs image by level-dependent cross-validation wavelet shr
 \usage{
 cvwavelet.image(images, imagewd,
     cv.optlevel, cv.bsize=c(1,1), cv.kfold, cv.tol=0.1^3, cv.maxiter=100,
-    impute.tol=0.1^3, impute.maxiter=100,
-    filter.number=10, family="DaubLeAsymm", thresh.type="soft", ll=3)
+    impute.tol=0.1^3, impute.maxiter=100, filter.number=2, ll=3)
 }
 \arguments{
 \item{images}{noisy image}
@@ -21,8 +20,6 @@ cvwavelet.image(images, imagewd,
 \item{impute.tol}{tolerance for imputation}
 \item{impute.maxiter}{maximum iteration for imputation}
 \item{filter.number}{specifies the smoothness of wavelet in the decomposition (argument of WaveThresh)}
-\item{family}{specifies the family of wavelets ``DaubExPhase" or ``DaubLeAsymm" (argument of WaveThresh)}
-\item{thresh.type}{specifies the type of thresholding ``hard" or ``soft" (argument of WaveThresh)}
 \item{ll}{specifies the lowest level to be thresholded}
 }
 \details{
@@ -40,14 +37,16 @@ This function performs level-dependent cross-validation wavelet shrinkage for tw
 # Generate Noisy Lennon Image
 data(lennon)
 sdimage <- sd(as.numeric(lennon))
-nlennon <- ncol(lennon); nlevel <- log2(ncol(lennon)); optlevel <- c(3:(nlevel-1))
+nlennon <- ncol(lennon); nlevel <- log2(ncol(lennon))
+optlevel <- c(3:(nlevel-1))
 set.seed(55)
 lennonnoise <- lennon+matrix(rnorm(nlennon^2, 0, sdimage), nlennon, nlennon)
 
 # Level-dependent Cross-validation Thresholding
 lennonwd <- imwd(lennonnoise)
-lennoncv <- cvwavelet.image(images=lennonnoise, imagewd=lennonwd,
-                       cv.optlevel=optlevel, cv.bsize=c(1,1), cv.kfold=10)$imagecv
-image(lennoncv, axes=FALSE, col=gray(0:100/100), main="Level-dependent CV")
+#lennoncv <- cvwavelet.image(images=lennonnoise, imagewd=lennonwd,
+#      cv.optlevel=optlevel, cv.bsize=c(1,1), cv.kfold=10)$imagecv
+#image(lennoncv, axes=FALSE, col=gray(0:100/100), 
+#   main="Level-dependent CV")
 }
 \keyword{nonparametric}

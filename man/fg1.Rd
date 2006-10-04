@@ -5,10 +5,10 @@
 This function generates fg1 function values for \eqn{n} equally spaced points in \eqn{[0,1]}.
 }
 \usage{
-fg1(n=1024)
+fg1(norx=1024)
 }
 \arguments{
-\item{n}{the number of data}
+\item{norx}{the number of data or x values in [0, 1]}
 }
 \details{
 A smooth function fg1 is introduced by Fan and Gijbels (1995) and is useful test function
@@ -24,7 +24,7 @@ Fan, J. and Gijbels, I. (1995)  Data-driven bandwidth selection in local polynom
 bandwidth and spatial adaptation. \emph{Journal of the Royal Statistical Society Ser. B} \bold{57}, 371--394.
 }
 \seealso{
-\code{\link{dopp}}, \code{\link{heav}}, \code{\link{poly}}.
+\code{\link{dopp}}, \code{\link{heav}}, \code{\link{ppoly}}.
 }
 \examples{
 testfg1 <- fg1(1024)

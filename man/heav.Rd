@@ -5,10 +5,10 @@
 This function generates Heavisine function values for \eqn{n} equally spaced points in \eqn{[0,1]}.
 }
 \usage{
-heav(n=1024)
+heav(norx=1024)
 }
 \arguments{
-\item{n}{the number of data}
+\item{norx}{the number of data or x values in [0, 1]}
 }
 \details{
 Heavisine function is introduced by Donoho and Johnstone (1994) and is useful test function
@@ -24,7 +24,7 @@ Donoho, D.L. and Johnstone, I.M. (1994) Ideal spatial adaptation by wavelet shri
 \emph{Biometrika}, \bold{81}, 425--455.
 }
 \seealso{
-\code{\link{dopp}}, \code{\link{poly}}, \code{\link{fg1}}.
+\code{\link{dopp}}, \code{\link{ppoly}}, \code{\link{fg1}}.
 }
 \examples{
 testheav <- heav(1024)
