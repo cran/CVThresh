@@ -156,7 +156,7 @@ cvwavelet.after.impute <- function(
         lambda.range <- 2 * ethresh[cv.optlevel + diff(c(cv.optlevel, nlevel))-ll]
     }
     else {
-        lambda.range <- threshold(ywd, policy="universal", type=thresh.type, return.threshold=T, lev=ll.nlevelm1)[1]
+        lambda.range <- threshold(ywd, policy="universal", type=thresh.type, return.threshold=TRUE, lev=ll.nlevelm1)[1]
     }
 
     lambda[1, ] <- rep(0, cv.ndim)
@@ -172,7 +172,7 @@ cvwavelet.after.impute <- function(
         yimpute2[cv.index[k,]] <- yimpute[cv.index[k,]]
         tmpyimputewr[cv.index[k,]] <- wr(threshold(wd(yimpute2, filter.number=filter.number, family=family),
                                 policy="manual", value=rep(optlambda, diff(c(cv.optlevel, nlevel))),
-                                by.level=T, type=thresh.type, lev=ll.nlevelm1))[cv.index[k,]]
+                                by.level=TRUE, type=thresh.type, lev=ll.nlevelm1))[cv.index[k,]]
     }
     perr <- mean((tmpyimputewr - y)^2)
 
@@ -187,7 +187,7 @@ cvwavelet.after.impute <- function(
                 yimpute2[cv.index[k,]] <- yimpute[cv.index[k,]]
                 tmpyimputewr[cv.index[k,]] <- wr(threshold(wd(yimpute2, filter.number=filter.number, family=family),
                                     policy="manual", value=rep(optlambda, diff(c(cv.optlevel, nlevel))),
-                                    by.level=T, type=thresh.type, lev=ll.nlevelm1))[cv.index[k,]]
+                                    by.level=TRUE, type=thresh.type, lev=ll.nlevelm1))[cv.index[k,]]
             }
             f2 <- mean((tmpyimputewr - y)^2)
 
@@ -197,7 +197,7 @@ cvwavelet.after.impute <- function(
                 yimpute2[cv.index[k,]] <- yimpute[cv.index[k,]]
                 tmpyimputewr[cv.index[k,]] <- wr(threshold(wd(yimpute2, filter.number=filter.number, family=family),
                                     policy="manual", value=rep(optlambda, diff(c(cv.optlevel, nlevel))),
-                                    by.level=T, type=thresh.type, lev=ll.nlevelm1))[cv.index[k,]]
+                                    by.level=TRUE, type=thresh.type, lev=ll.nlevelm1))[cv.index[k,]]
             }
             f3 <- mean((tmpyimputewr - y)^2)
 
@@ -227,7 +227,7 @@ cvwavelet.after.impute <- function(
     }
 
     yc <- wr(threshold(ywd, policy="manual", value=rep(optlambda, diff(c(cv.optlevel, nlevel))),
-                        by.level=T, type=thresh.type, lev=ll.nlevelm1))
+                        by.level=TRUE, type=thresh.type, lev=ll.nlevelm1))
     if(cv.ndim !=1)
         list(yc=yc, cvthresh=rep(optlambda, diff(c(cv.optlevel, nlevel))))
     else
@@ -281,7 +281,9 @@ cvtype.image <- function(n, cv.bsize=c(1,1), cv.kfold) {
         } else {
             cv.index <- tmp.index
         }
-        assign(paste("cv.index", j, sep=""), cv.index)
+        #assign(paste("cv.index", j, sep=""), cv.index)
+        if(j==1) cv.index1 <- cv.index
+        if(j==2) cv.index2 <- cv.index        
     }
     list(cv.index1=cv.index1, cv.index2=cv.index2)
 }

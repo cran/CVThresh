@@ -46,7 +46,7 @@ lennonnoise <- lennon+matrix(rnorm(nlennon^2, 0, sdimage), nlennon, nlennon)
 lennonwd <- imwd(lennonnoise)
 #lennoncv <- cvwavelet.image(images=lennonnoise, imagewd=lennonwd,
 #      cv.optlevel=optlevel, cv.bsize=c(1,1), cv.kfold=10)$imagecv
-#image(lennoncv, axes=FALSE, col=gray(0:100/100), 
+#image(lennoncv, axes=FALSE, col=gray(100:0/100), 
 #   main="Level-dependent CV")
 }
 \keyword{nonparametric}
