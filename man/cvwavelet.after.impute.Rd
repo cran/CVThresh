@@ -45,11 +45,11 @@ yimpute <- cvimpute.by.wavelet(y=y, impute.index=cv.index)$yimpute
 
 ywd <- wd(y)
 
-out <- cvwavelet.after.impute(y=y, ywd=ywd, yimpute=yimpute,
-cv.index=cv.index, cv.optlevel=c(3:(nlevel-1)))
+#out <- cvwavelet.after.impute(y=y, ywd=ywd, yimpute=yimpute,
+#cv.index=cv.index, cv.optlevel=c(3:(nlevel-1)))
 
-ts.plot(ts(out$yc, start=1229.98, deltat=0.02, frequency=50),
-   main="Level-dependent Cross Validation", xlab = "Seconds", ylab="")
+#ts.plot(ts(out$yc, start=1229.98, deltat=0.02, frequency=50),
+#   main="Level-dependent Cross Validation", xlab = "Seconds", ylab="")
 
 ##### Specifying thresholding structure
 # cv.optlevel <- c(3) # Threshold (level 3 to finest level) at the same time.
