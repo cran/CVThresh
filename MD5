@@ -1,8 +1,8 @@
-5f22b67e00c65bc05943fd2d4c5f5a26 *DESCRIPTION
-e7246ec9075e39bf4799bc8defa62ea7 *NAMESPACE
+ac1a1df43370bcc676011018a5b5de2f *DESCRIPTION
+5fa4541c5da985a3c6716d5062ee841e *NAMESPACE
 c9b45ef44a25963ba001a08598eeb0f9 *R/CVThresh.R
-7105881c2c3dc1ad48bcbe8f125924a7 *data/ipd.rda
-afda97958ec7c43a974ac4bffdad7699 *man/CVThresh.Rd
+61ae57273a60257879b53e72c055badc *data/ipd.rda
+dc902015c20c19fdb28fd47b7e6a3569 *man/CVThresh.Rd
 908b5913eab71e9428225de1ff792819 *man/cvimpute.by.wavelet.Rd
 362c894df380e76ea1b014a318694d50 *man/cvimpute.image.by.wavelet.Rd
 ab410b7c4aaa3eaee89ced19440756bc *man/cvtype.Rd

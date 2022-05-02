@@ -1,7 +1,7 @@
 \name{CVThresh}
+\docType{package}
 \alias{CVThresh-package}
 \alias{CVThresh}
-\docType{package}
 \title{Level-Dependent Cross-Validation Approach for Wavelet Thresholding}
 \description{
    This package carries out level-dependent
